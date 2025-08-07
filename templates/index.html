@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Métriques YOLO - Oraimo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Style pour l'image en petit */
+        .card img {
+            cursor: pointer;
+            max-width: 150px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
+        .card img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Overlay (caché par défaut) */
+        #overlay {
+            position: fixed;
+            display: none; /* caché */
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Image agrandie avec bordure verte */
+        #overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 5px solid limegreen;
+            border-radius: 8px;
+            box-shadow: 0 0 20px limegreen;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">📊 Métriques</a>
+        <a href="/test">🖼️ Tester un modèle</a>
+    </nav>
+
+    <h1>Métriques YOLO</h1>
+    <div class="metrics-container">
+        {% for model, data in metrics.items() %}
+        <div class="card">
+            <!-- Ajout d'un onclick pour ouvrir l'overlay -->
+            <img src="{{ url_for('static', filename=data.image) }}" alt="{{ model }}" onclick="openOverlay(this.src)">
+            <h2>{{ model }}</h2>
+            <table>
+                <tr><th>mAP@0.5</th><td>{{ data.mAP }}</td></tr>
+                <tr><th>Précision</th><td>{{ data.precision }}</td></tr>
+                <tr><th>Rappel</th><td>{{ data.recall }}</td></tr>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Overlay caché -->
+    <div id="overlay" onclick="closeOverlay()">
+        <img id="overlay-img" src="" alt="Image agrandie">
+    </div>
+
+    <script>
+        function openOverlay(src) {
+            const overlay = document.getElementById('overlay');
+            const overlayImg = document.getElementById('overlay-img');
+            overlayImg.src = src;
+            overlay.style.display = 'flex';
+        }
+
+        function closeOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+            document.getElementById('overlay-img').src = '';
+        }
+    </script>
+</body>
+</html>

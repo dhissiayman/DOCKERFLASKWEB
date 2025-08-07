@@ -1,0 +1,13 @@
+train: valid
+val: valid
+test: valid
+
+nc: 4
+names: ['Oraimo Watch 5R  OSW-820', 'PowerCube 10 Sleek  OCW-1111ExL53', 'PowerCube 10 Sleek  OCW-1111ExM53', 'Watch 5 Lite  OSW-804']
+
+roboflow:
+  workspace: hert
+  project: my-second-project-1vdjc
+  version: 10
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/hert/my-second-project-1vdjc/dataset/10

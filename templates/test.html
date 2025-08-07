@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test YOLO - Oraimo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">📊 Métriques</a>
+        <a href="/test">🖼️ Tester un modèle</a>
+    </nav>
+
+    <h1>Tester un modèle YOLO</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <label>Choisir un modèle :</label>
+        <select name="model">
+            {% for m in models %}
+                <option value="{{ m }}">{{ m }}</option>
+            {% endfor %}
+        </select>
+        <label>Choisir une image :</label>
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Lancer la détection</button>
+    </form>
+
+    {% if uploaded_image %}
+        <h2>Résultat pour {{ model }}</h2>
+        <p>Image originale :</p>
+        <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" width="400">
+        <p>Image annotée :</p>
+        <img src="{{ url_for('static', filename='uploads/' + result_image) }}" width="400">
+    {% endif %}
+</body>
+</html>
